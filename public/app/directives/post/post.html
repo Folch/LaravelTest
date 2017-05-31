@@ -1,0 +1,54 @@
+<div class="thumbnail">
+    <!--admin    {{vm.isAdmin }}-->
+    <!--state {{vm.state == 'create'}}-->
+    <!--{{vm.currentPost}}-->
+    <div class="caption" ng-show="vm.isAdmin || (!vm.isAdmin && vm.currentPost.active)">
+
+        <a ng-click="showFullBody = !showFullBody;"><h3>{{vm.currentPost.title}}</h3></a>
+
+        <div class="form-group" ng-show="(!vm.currentPost.editshow && vm.isAdmin) || vm.state == 'create'">
+
+            <input id="title" ng-model="vm.currentPost.title" class="form-control" type="text" placeholder="Title">
+        </div>
+        <p ng-show="showFullBody && vm.currentPost.editshow">{{vm.currentPost.body}}</p>
+        <p ng-show="!showFullBody && vm.currentPost.editshow">{{ vm.currentPost.body | limitTo: 100
+            }}{{vm.currentPost.body.length >
+            100 ?
+            '...'
+            : ''}}</p>
+        <div class="form-group" ng-show="(!vm.currentPost.editshow && vm.isAdmin)||vm.state == 'create'">
+            <textarea id="body" class="form-control" placeholder="Body"
+                      ng-model="vm.currentPost.body"></textarea>
+        </div>
+        <div class="form-group" ng-show="vm.state == 'create'">
+            <select class="form-control" id="sel1" ng-model="vm.currentPost.user_id">
+                <option ng-repeat="user in vm.users" ng-value="{{user.id}}">{{user.name}}</option>
+            </select>
+        </div>
+        <label class="checkbox-inline" ng-show="vm.state == 'create'">
+            <input type="checkbox" ng-model="vm.currentPost.active">Active
+        </label>
+        <p ng-show="vm.state == 'list'">By <strong>{{vm.currentPost.user_name}}</strong></p>
+        <p ng-show="vm.isAdmin && vm.state == 'list'">
+            <a ng-click="vm.currentPost.editshow = false;" class="btn btn-primary" role="button"
+               ng-show="vm.currentPost.editshow">
+                Edit
+            </a>
+            <a ng-click="vm.cancel(vm.currentPost)" class="btn btn-default" role="button"
+               ng-show="!vm.currentPost.editshow">
+                Cancel
+            </a>
+            <a ng-click="vm.save(vm.currentPost)" class="btn btn-default" role="button"
+               ng-show="!vm.currentPost.editshow">
+                Save
+            </a>
+
+        </p>
+        <p ng-show="vm.isAdmin && vm.state == 'create'">
+            <a ng-click="vm.create(vm.currentPost)" class="btn btn-default" role="button">
+                Create
+            </a>
+
+        </p>
+    </div>
+</div>

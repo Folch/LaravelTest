@@ -1,0 +1,42 @@
+<div class="row">
+    <div class="row" class="col-md-3">
+        <div class="top-right links">
+            <a ng-show="vm.showLogin" href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+            <a ng-show="!vm.showLogin" ng-click="vm.logout()">Logout</a>
+
+            <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="loginmodal-container">
+                        <h1>Login to Your Account</h1><br>
+                        <form>
+                            <input type="text" name="user" placeholder="E-mail" ng-model="vm.email">
+                            <input type="password" name="pass" placeholder="Password" ng-model="vm.password">
+                            <button type="button" class="btn btn-primary" ng-click="vm.login(vm.email,vm.password);">
+                                Login
+                            </button>
+                        </form>
+                        <p style="color:red" ng-show="!vm.loginCorrect">User/password incorrect</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content" ng-show="vm.posts.length > 0">
+
+            <post-box ng-model="vm.newpost" ng-if="vm.isAdmin"
+                      state="create" is-admin="vm.isAdmin" on-create="vm.create"></post-box>
+
+            <div ng-repeat="post in vm.posts" class="col-md-6">
+
+
+                <post-box ng-model="post" is-admin="vm.isAdmin"
+                          on-cancel="vm.cancel" on-save="vm.save" state="list"></post-box>
+            </div>
+
+        </div>
+    </div>
+    <div ng-show="vm.posts.length == 0">
+        No posts available
+    </div>
+
+</div>
